@@ -43,12 +43,13 @@
 
 - **阅读主页**：[wuxiy.github.io/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer](https://wuxiy.github.io/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer/)（GitHub Pages，支持站内逐章阅读）
 - **在线阅读**：点击下方目录，直接在 GitHub 上按章节阅读
-- **整本下载**：[前线部署工程师（FDE）v1.0.6.pdf](前线部署工程师（FDE）v1.0.6.pdf)（根目录合并版；如有更新以章节 Markdown 为准）
+- **整本下载**：[前线部署工程师（FDE）v1.0.11.pdf](前线部署工程师（FDE）v1.0.11.pdf)（根目录合并版；如有更新以章节 Markdown 为准）
 
 ## 目录
 
 | 章节 | 内容 |
 | --- | --- |
+| [自序](00-自序.md) | 为什么写这本书 |
 | [第 1 章](01-第1章-FDE的崛起.md) | FDE 的崛起 |
 | [第 2 章](02-第2章-解决正确的问题.md) | 解决正确的问题 |
 | [第 3 章](03-第3章-赢得客户.md) | 赢得客户 |
