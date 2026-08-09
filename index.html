@@ -5,24 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>前线部署工程师：人工智能时代的客户价值交付秘籍 · 范冰</title>
 <meta name="description" content="《前线部署工程师》——关于 Forward Deployed Engineer（FDE）的中文开源书：定义、交付方法论与 112 个真实案例。范冰著，全文免费公开。">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="7" fill="%23b7422e"/><rect x="5" y="5" width="54" height="54" rx="4" fill="none" stroke="%23f7f4ee" stroke-width="2.5"/><text x="32" y="44" font-size="32" text-anchor="middle" fill="%23f7f4ee" font-family="serif" font-weight="900">前</text></svg>'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#f7f4ee;
-  --paper-2:#efe9de;
+  --paper-2:#efe9dc;
   --ink:#211d18;
-  --ink-soft:#57503f;
-  --ink-faint:#8a8272;
+  --ink-soft:#4f4839;
+  --ink-faint:#6f6757;
   --accent:#b7422e;
   --accent-deep:#8f2f1f;
-  --line:#ddd5c5;
-  --card:#fffdf9;
+  --line:#ddd5c3;
+  --line-strong:#c8bda6;
+  --card:#fffdf8;
   --radius:10px;
+  --z-topbar:40;
+  --z-progress:60;
+  --ease-out:cubic-bezier(.16,1,.3,1);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth;}
+}
 body{
   background:var(--paper);
   color:var(--ink);
@@ -33,10 +40,26 @@ body{
 ::selection{background:var(--accent);color:#fff;}
 a{color:var(--accent);text-decoration:none;}
 a:hover{color:var(--accent-deep);}
+h1,h2,h3{text-wrap:balance;}
+
+/* ---------- 品牌记号：朱红方印 ---------- */
+.mark{
+  display:inline-block;width:10px;height:10px;
+  background:var(--accent);border-radius:2px;flex:none;
+}
+.seal{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:46px;height:46px;flex:none;
+  background:var(--accent);color:#fdf6ec;
+  border-radius:4px;
+  box-shadow:inset 0 0 0 2px rgba(253,246,236,.9);
+  font-weight:900;font-size:16.5px;line-height:1.25;letter-spacing:0;
+  transform:rotate(-2deg);
+}
 
 /* ---------- 顶栏 ---------- */
 .topbar{
-  position:sticky;top:0;z-index:50;
+  position:sticky;top:0;z-index:var(--z-topbar);
   background:rgba(247,244,238,.92);
   backdrop-filter:blur(8px);
   border-bottom:1px solid var(--line);
@@ -45,8 +68,11 @@ a:hover{color:var(--accent-deep);}
   max-width:1080px;margin:0 auto;padding:0 24px;
   height:58px;display:flex;align-items:center;gap:24px;
 }
-.brand{font-weight:900;font-size:17px;letter-spacing:.05em;color:var(--ink);white-space:nowrap;}
-.brand small{color:var(--accent);font-size:12px;margin-left:6px;letter-spacing:.2em;}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font-weight:900;font-size:17px;letter-spacing:.05em;color:var(--ink);white-space:nowrap;
+}
+.brand small{color:var(--accent);font-size:12px;letter-spacing:.2em;}
 .topnav{margin-left:auto;display:flex;gap:22px;font-family:"Noto Sans SC",sans-serif;font-size:14px;}
 .topnav a{color:var(--ink-soft);}
 .topnav a:hover{color:var(--accent);}
@@ -55,92 +81,177 @@ a:hover{color:var(--accent-deep);}
 /* ---------- 阅读进度条 ---------- */
 #progress{
   position:fixed;top:0;left:0;height:3px;width:0;
-  background:var(--accent);z-index:99;display:none;
+  background:var(--accent);z-index:var(--z-progress);display:none;
 }
 
 /* ---------- 首屏 ---------- */
 .hero{
   max-width:1080px;margin:0 auto;
-  padding:96px 24px 72px;
+  padding:104px 24px 80px;
   text-align:center;
   position:relative;
 }
 .hero .kicker{
   font-family:"Noto Sans SC",sans-serif;
   font-size:13px;letter-spacing:.45em;color:var(--accent);
-  margin-bottom:28px;
+  margin-bottom:30px;
 }
 .hero h1{
   font-size:clamp(40px,7vw,76px);
-  font-weight:900;letter-spacing:.06em;line-height:1.25;
+  font-weight:900;letter-spacing:.08em;line-height:1.25;
 }
 .hero .subtitle{
-  margin-top:18px;
+  margin-top:20px;
   font-size:clamp(16px,2.4vw,22px);
-  color:var(--ink-soft);letter-spacing:.15em;
+  color:var(--ink-soft);letter-spacing:.18em;
 }
 .hero .author-line{
-  margin-top:26px;font-family:"Noto Sans SC",sans-serif;
-  font-size:14px;color:var(--ink-faint);letter-spacing:.1em;
+  margin-top:30px;font-family:"Noto Sans SC",sans-serif;
+  font-size:14px;color:var(--ink-faint);letter-spacing:.12em;
+  display:flex;align-items:center;justify-content:center;gap:14px;
 }
-.hero .cta{margin-top:44px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.hero .author-line::before,.hero .author-line::after{
+  content:"";width:34px;height:1px;background:var(--line-strong);flex:none;
+}
+@media(max-width:560px){
+  .hero .author-line::before,.hero .author-line::after{display:none;}
+}
+.hero .cta{margin-top:46px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.hero-vertical{
+  position:absolute;right:8px;top:108px;
+  writing-mode:vertical-rl;
+  font-size:14px;letter-spacing:.55em;color:var(--ink-faint);
+  user-select:none;
+}
+@media(max-width:1120px){.hero-vertical{display:none;}}
 .btn{
   display:inline-block;padding:13px 34px;border-radius:999px;
   font-family:"Noto Sans SC",sans-serif;font-size:15px;font-weight:500;
-  letter-spacing:.08em;transition:all .2s ease;cursor:pointer;border:1px solid transparent;
+  letter-spacing:.08em;transition:all .25s var(--ease-out);cursor:pointer;border:1px solid transparent;
 }
 .btn-primary{background:var(--accent);color:#fff;}
-.btn-primary:hover{background:var(--accent-deep);color:#fff;transform:translateY(-1px);}
+.btn-primary:hover{background:var(--accent-deep);color:#fff;transform:translateY(-2px);}
 .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent;}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
 
-/* ---------- 数字带 ---------- */
-.stats{
+/* 首屏载入编排 */
+@keyframes hero-rise{
+  from{opacity:0;transform:translateY(28px);}
+  to{opacity:1;transform:none;}
+}
+.hero .fx{animation:hero-rise .9s var(--ease-out) both;}
+.hero .fx.d1{animation-delay:.05s;}
+.hero .fx.d2{animation-delay:.18s;}
+.hero .fx.d3{animation-delay:.32s;}
+.hero .fx.d4{animation-delay:.46s;}
+.hero .fx.d5{animation-delay:.6s;}
+
+/* ---------- 滚动渐现（默认可见，JS 加持） ---------- */
+body.js .rv{
+  opacity:0;transform:translateY(18px);
+  transition:opacity .7s ease,transform .7s var(--ease-out);
+}
+body.js .rv.in{opacity:1;transform:none;}
+@media (prefers-reduced-motion: reduce){
+  .hero .fx{animation:none;}
+  body.js .rv{opacity:1;transform:none;transition:none;}
+}
+
+/* ---------- 关键数字 ---------- */
+.facts{
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   background:var(--paper-2);
 }
-.stats-inner{
-  max-width:1080px;margin:0 auto;padding:40px 24px;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;
-  text-align:center;
+.facts-inner{
+  max-width:1080px;margin:0 auto;padding:14px 24px;
+  display:grid;grid-template-columns:1fr 1fr;
 }
-.stat .num{font-size:clamp(34px,4.5vw,48px);font-weight:900;color:var(--accent);line-height:1.2;}
-.stat .label{margin-top:6px;font-family:"Noto Sans SC",sans-serif;font-size:13.5px;color:var(--ink-soft);letter-spacing:.05em;}
+.fact{
+  display:flex;align-items:baseline;gap:20px;
+  padding:22px 28px;border-top:1px solid var(--line);
+}
+.fact:nth-child(-n+2){border-top:none;}
+.fact:nth-child(odd){border-right:1px solid var(--line);}
+.fact .num{
+  font-size:clamp(32px,4vw,44px);font-weight:900;color:var(--accent);
+  line-height:1.15;font-variant-numeric:tabular-nums;min-width:118px;
+}
+.fact p{font-family:"Noto Sans SC",sans-serif;font-size:13.5px;color:var(--ink-soft);line-height:1.7;}
+@media(max-width:720px){
+  .facts-inner{grid-template-columns:1fr;}
+  .fact:nth-child(-n+2){border-top:1px solid var(--line);}
+  .fact:first-child{border-top:none;}
+  .fact:nth-child(odd){border-right:none;}
+}
 
 /* ---------- 通用区块 ---------- */
-.section{max-width:1080px;margin:0 auto;padding:84px 24px 24px;}
-.section-head{text-align:center;margin-bottom:48px;}
-.section-head .en{
-  font-family:"Noto Sans SC",sans-serif;font-size:12px;
-  letter-spacing:.4em;color:var(--ink-faint);text-transform:uppercase;
+.section{max-width:1080px;margin:0 auto;padding:88px 24px 24px;}
+.section-head{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-bottom:52px;
 }
-.section-head h2{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:.08em;margin-top:10px;}
+.section-head h2{font-size:clamp(26px,4vw,34px);font-weight:900;letter-spacing:.1em;}
+.section-head .en{
+  font-family:"Noto Sans SC",sans-serif;font-size:13px;color:var(--ink-faint);letter-spacing:.2em;
+}
 
 /* ---------- 引言 ---------- */
 .quote-block{max-width:760px;margin:0 auto;text-align:center;}
-.quote-block p{font-size:clamp(18px,2.6vw,24px);line-height:2;}
+.quote-block p{font-size:clamp(18px,2.6vw,24px);line-height:2.1;text-wrap:pretty;}
 .quote-block strong{color:var(--accent);}
-.quote-block .from{margin-top:20px;font-family:"Noto Sans SC",sans-serif;font-size:13px;color:var(--ink-faint);}
+.quote-block .from{
+  margin-top:24px;font-family:"Noto Sans SC",sans-serif;font-size:13px;
+  color:var(--ink-faint);letter-spacing:.1em;
+  display:flex;align-items:center;justify-content:center;gap:14px;
+}
+.quote-block .from::before,.quote-block .from::after{
+  content:"";width:34px;height:1px;background:var(--line-strong);
+}
 
-/* ---------- 目录 ---------- */
-.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;}
+/* ---------- 目录：正篇 ---------- */
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
 .toc-card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
   padding:24px 26px;display:flex;align-items:baseline;gap:18px;
-  transition:all .2s ease;cursor:pointer;
+  transition:border-color .25s var(--ease-out),transform .25s var(--ease-out),background .25s var(--ease-out);
 }
-.toc-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 24px rgba(33,29,24,.08);}
+.toc-card:hover{border-color:var(--accent);transform:translateY(-3px);}
 .toc-card .no{
   font-size:26px;font-weight:900;color:var(--accent);
-  font-variant-numeric:tabular-nums;min-width:44px;
+  font-variant-numeric:tabular-nums;min-width:44px;line-height:1.3;
 }
-.toc-card .no.appendix{font-size:15px;min-width:44px;}
+.toc-card .body{display:flex;flex-direction:column;}
 .toc-card .title{font-size:17.5px;font-weight:600;color:var(--ink);}
-.toc-card .desc{font-family:"Noto Sans SC",sans-serif;font-size:12.5px;color:var(--ink-faint);margin-top:2px;}
+.toc-card .desc{font-family:"Noto Sans SC",sans-serif;font-size:12.5px;color:var(--ink-faint);margin-top:3px;line-height:1.6;}
+
+/* ---------- 目录：卷首卷尾 ---------- */
+.toc-extra-label{
+  margin:44px 0 4px;
+  display:flex;align-items:center;gap:14px;
+  font-family:"Noto Sans SC",sans-serif;font-size:13px;color:var(--ink-faint);letter-spacing:.25em;
+}
+.toc-extra-label::after{content:"";flex:1;height:1px;background:var(--line);}
+.toc-extra{border-bottom:1px solid var(--line);}
+.toc-row{
+  display:flex;align-items:baseline;gap:20px;
+  padding:15px 6px;border-top:1px solid var(--line);
+  transition:background .2s ease;
+}
+.toc-row:hover{background:var(--card);}
+.toc-row .no{
+  font-family:"Noto Sans SC",sans-serif;font-size:13px;color:var(--accent);
+  min-width:52px;letter-spacing:.05em;
+}
+.toc-row .title{font-size:16px;font-weight:600;color:var(--ink);}
+.toc-row .desc{
+  margin-left:auto;font-family:"Noto Sans SC",sans-serif;font-size:12.5px;
+  color:var(--ink-faint);text-align:right;
+}
+@media(max-width:640px){.toc-row .desc{display:none;}}
 
 /* ---------- 关于 ---------- */
 .about{max-width:760px;margin:0 auto;font-size:16.5px;}
-.about p{margin-bottom:1.2em;color:var(--ink-soft);}
+.about p{margin-bottom:1.2em;color:var(--ink-soft);text-wrap:pretty;}
 .about p strong{color:var(--ink);}
 
 /* ---------- 作者卡 ---------- */
@@ -148,25 +259,27 @@ a:hover{color:var(--accent-deep);}
   max-width:760px;margin:0 auto;background:var(--card);
   border:1px solid var(--line);border-radius:var(--radius);padding:40px 44px;
 }
-.author-card h3{font-size:22px;font-weight:900;margin-bottom:12px;}
-.author-card p{color:var(--ink-soft);font-size:15.5px;}
+.author-head{display:flex;align-items:center;gap:18px;margin-bottom:14px;}
+.author-head h3{font-size:22px;font-weight:900;}
+.author-card p{color:var(--ink-soft);font-size:15.5px;text-wrap:pretty;}
 .author-card .contact{
-  margin-top:18px;padding-top:18px;border-top:1px dashed var(--line);
+  margin-top:20px;padding-top:18px;border-top:1px dashed var(--line-strong);
   font-family:"Noto Sans SC",sans-serif;font-size:14px;color:var(--ink-soft);
 }
 .author-card .contact span{margin-right:22px;}
 
 /* ---------- 页脚 ---------- */
 .footer{
-  margin-top:96px;border-top:1px solid var(--line);background:var(--paper-2);
+  margin-top:100px;border-top:1px solid var(--line);background:var(--paper-2);
 }
 .footer-inner{
   max-width:1080px;margin:0 auto;padding:48px 24px 56px;
   font-family:"Noto Sans SC",sans-serif;font-size:13px;color:var(--ink-faint);
-  text-align:center;line-height:2;
+  text-align:center;line-height:2.1;
 }
 .footer-inner a{color:var(--ink-soft);text-decoration:underline;}
 .footer-inner a:hover{color:var(--accent);}
+.footer-mark{display:flex;justify-content:center;margin-bottom:14px;}
 
 /* ---------- 阅读视图 ---------- */
 #reader{display:none;}
@@ -177,15 +290,24 @@ a:hover{color:var(--accent-deep);}
 }
 .reader-meta a:hover{color:var(--accent);}
 #article{font-size:17px;}
-#article h1{font-size:30px;font-weight:900;letter-spacing:.05em;margin:24px 0 28px;padding-bottom:18px;border-bottom:2px solid var(--ink);}
-#article h2{font-size:23px;font-weight:900;margin:52px 0 18px;padding-left:14px;border-left:4px solid var(--accent);line-height:1.5;}
+#article.fx{animation:article-in .45s var(--ease-out);}
+@keyframes article-in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion: reduce){#article.fx{animation:none;}}
+#article h1{font-size:30px;font-weight:900;letter-spacing:.05em;margin:24px 0 30px;padding-bottom:18px;border-bottom:2px solid var(--ink);}
+#article h2{
+  font-size:23px;font-weight:900;margin:56px 0 18px;line-height:1.5;
+  display:flex;align-items:center;gap:12px;
+}
+#article h2::before{
+  content:"";width:9px;height:9px;background:var(--accent);border-radius:2px;flex:none;
+}
 #article h3{font-size:19px;font-weight:700;margin:36px 0 14px;}
 #article p{margin-bottom:1.15em;color:#332e26;}
 #article strong{color:var(--ink);}
 #article blockquote{
   margin:24px 0;padding:16px 22px;
-  border-left:3px solid var(--accent);background:var(--paper-2);
-  color:var(--ink-soft);border-radius:0 8px 8px 0;
+  border:1px solid var(--line);background:var(--paper-2);
+  color:var(--ink-soft);border-radius:8px;
 }
 #article blockquote p{margin-bottom:.4em;}
 #article ul,#article ol{margin:0 0 1.15em 1.6em;color:#332e26;}
@@ -227,7 +349,7 @@ a:hover{color:var(--accent-deep);}
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="#/" id="brand-link">前线部署工程师<small>FDE</small></a>
+    <a class="brand" href="#/" id="brand-link"><span class="mark"></span>前线部署工程师<small>FDE</small></a>
     <nav class="topnav">
       <a href="#toc" data-home-anchor>目录</a>
       <a href="#about" data-home-anchor>关于本书</a>
@@ -242,44 +364,49 @@ a:hover{color:var(--accent-deep);}
 <main id="home">
 
   <section class="hero">
-    <div class="kicker">一本关于 AI 时代交付方法论的免费开源书</div>
-    <h1>前线部署工程师</h1>
-    <div class="subtitle">人工智能时代的客户价值交付秘籍</div>
-    <div class="author-line">范冰 著 · 全文免费公开 · 在线阅读与分享</div>
-    <div class="cta">
+    <div class="hero-vertical">人工智能时代的客户价值交付秘籍</div>
+    <div class="kicker fx d1">一本关于 AI 时代交付方法论的免费开源书</div>
+    <h1 class="fx d2">前线部署工程师</h1>
+    <div class="subtitle fx d3">人工智能时代的客户价值交付秘籍</div>
+    <div class="author-line fx d4">范冰 著 · 全文免费公开 · 在线阅读与分享</div>
+    <div class="cta fx d5">
       <a class="btn btn-primary" href="#/read/01">开始阅读</a>
       <a class="btn btn-ghost" id="hero-pdf" href="#" target="_blank" rel="noopener">下载整本 PDF</a>
     </div>
   </section>
 
-  <section class="stats">
-    <div class="stats-inner">
-      <div class="stat"><div class="num">95%</div><div class="label">企业生成式 AI 项目未产生可衡量的财务回报（MIT，2025）</div></div>
-      <div class="stat"><div class="num">800%</div><div class="label">FDE 岗位发布量九个月内的涨幅</div></div>
-      <div class="stat"><div class="num">112</div><div class="label">真实可查的 FDE 案例，出处全部标注</div></div>
-      <div class="stat"><div class="num">13</div><div class="label">自序、八章正文、后记与三个附录，全部免费公开</div></div>
+  <section class="facts rv">
+    <div class="facts-inner">
+      <div class="fact"><div class="num">95%</div><p>企业生成式 AI 项目未产生可衡量的财务回报（MIT，2025）</p></div>
+      <div class="fact"><div class="num">800%</div><p>FDE 岗位发布量在九个月内的涨幅</p></div>
+      <div class="fact"><div class="num">112</div><p>真实可查的 FDE 案例，出处全部标注</p></div>
+      <div class="fact"><div class="num">13</div><p>自序、八章正文、后记与三个附录，全部免费公开</p></div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section rv">
     <div class="quote-block">
       <p>一边是企业人工智能项目 95% 的阵亡率，一边是一个岗位 800% 的抢手度。<br><strong>模型已经不稀缺了，能把模型塞进客户真实业务里的人，才稀缺。</strong></p>
-      <div class="from">—— 摘自本书第 1 章</div>
+      <div class="from">摘自本书第 1 章</div>
     </div>
   </section>
 
-  <section class="section" id="toc">
+  <section class="section rv" id="toc">
     <div class="section-head">
-      <div class="en">Contents</div>
+      <span class="mark"></span>
       <h2>目录</h2>
+      <span class="en">Contents</span>
     </div>
     <div class="toc-grid" id="toc-grid"></div>
+    <div class="toc-extra-label">卷首 · 卷尾</div>
+    <div class="toc-extra" id="toc-extra"></div>
   </section>
 
-  <section class="section" id="about">
+  <section class="section rv" id="about">
     <div class="section-head">
-      <div class="en">About</div>
+      <span class="mark"></span>
       <h2>关于本书</h2>
+      <span class="en">About</span>
     </div>
     <div class="about">
       <p>「前线部署工程师」（Forward Deployed Engineer，FDE）是一个从 Palantir 情报项目里长出来的角色：工程师不在后方写代码，而是驻扎到客户现场，把模型和技术塞进客户真实的业务里，直到价值真正落地。在生成式 AI 项目阵亡率高达 95% 的今天，这个岗位正在硅谷爆发——OpenAI 在招，Anthropic 在招，YC 孵化器里一百多家创业公司都在招。</p>
@@ -288,13 +415,17 @@ a:hover{color:var(--accent-deep);}
     </div>
   </section>
 
-  <section class="section" id="author">
+  <section class="section rv" id="author">
     <div class="section-head">
-      <div class="en">Author</div>
+      <span class="mark"></span>
       <h2>关于作者</h2>
+      <span class="en">Author</span>
     </div>
     <div class="author-card">
-      <h3>范冰</h3>
+      <div class="author-head">
+        <span class="seal">范<br>冰</span>
+        <h3>范冰</h3>
+      </div>
       <p>网名 XDash，互联网从业者，《增长黑客》作者，www.zengzhang.ai 主理人，长期关注技术趋势与商业方法论。本书为个人研究整理，不代表任何机构立场。</p>
       <div class="contact">
         <span>微信：ifanbing（注明「FDE」）</span>
@@ -316,6 +447,7 @@ a:hover{color:var(--accent-deep);}
 
 <footer class="footer">
   <div class="footer-inner">
+    <div class="footer-mark"><span class="mark"></span></div>
     <div>《前线部署工程师：人工智能时代的客户价值交付秘籍》 · 范冰 著</div>
     <div>本书供读者免费阅读与非商业性分享，转载请注明出处与作者；商业用途须事先获得作者书面许可。</div>
     <div style="margin-top:10px;">
@@ -357,17 +489,28 @@ a:hover{color:var(--accent-deep);}
     if (el) el.href = pdfUrl;
   });
 
-  // ---------- 渲染目录 ----------
+  // ---------- 渲染目录：正篇为卡片，卷首卷尾为横排条目 ----------
   var grid = document.getElementById("toc-grid");
-  CHAPTERS.forEach(function(ch){
+  var extra = document.getElementById("toc-extra");
+  CHAPTERS.forEach(function(ch, i){
     var a = document.createElement("a");
-    a.className = "toc-card";
     a.href = "#/read/" + ch.id;
-    a.innerHTML =
-      '<span class="no' + (ch.appendix ? " appendix" : "") + '">' + ch.no + '</span>' +
-      '<span><span class="title">' + ch.title + '</span>' +
-      (ch.desc ? '<span class="desc">' + ch.desc + '</span>' : "") + '</span>';
-    grid.appendChild(a);
+    if (ch.appendix) {
+      a.className = "toc-row";
+      a.innerHTML =
+        '<span class="no">' + ch.no + '</span>' +
+        '<span class="title">' + ch.title + '</span>' +
+        (ch.desc ? '<span class="desc">' + ch.desc + '</span>' : "");
+      extra.appendChild(a);
+    } else {
+      a.className = "toc-card rv";
+      a.style.transitionDelay = (i * 45) + "ms";
+      a.innerHTML =
+        '<span class="no">' + ch.no + '</span>' +
+        '<span class="body"><span class="title">' + ch.title + '</span>' +
+        (ch.desc ? '<span class="desc">' + ch.desc + '</span>' : "") + '</span>';
+      grid.appendChild(a);
+    }
   });
 
   var home = document.getElementById("home");
@@ -375,6 +518,25 @@ a:hover{color:var(--accent-deep);}
   var article = document.getElementById("article");
   var readerNav = document.getElementById("reader-nav");
   var progress = document.getElementById("progress");
+
+  // ---------- 滚动渐现：默认可见，IntersectionObserver 可用时才接管 ----------
+  document.body.classList.add("js");
+  var revealEls = document.querySelectorAll(".rv");
+  var reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    Array.prototype.forEach.call(revealEls, function(el){ io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(revealEls, function(el){ el.classList.add("in"); });
+  }
 
   function showHome(anchor){
     reader.style.display = "none";
@@ -436,6 +598,10 @@ a:hover{color:var(--accent-deep);}
                md.replace(/&/g,"&amp;").replace(/</g,"&lt;") + "</pre>";
       }
       article.innerHTML = html;
+      // 章节淡入
+      article.classList.remove("fx");
+      void article.offsetWidth;
+      article.classList.add("fx");
       // 章节内的相对 .md 链接改为站内路由，其余保持原样
       Array.prototype.forEach.call(article.querySelectorAll("a[href]"), function(a){
         var href = a.getAttribute("href");
