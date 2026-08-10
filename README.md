@@ -43,7 +43,7 @@
 
 - **阅读主页**：[wuxiy.github.io/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer](https://wuxiy.github.io/FDE-the-Guidance-Book-of-Forward-Deployed-Engineer/)（GitHub Pages，支持站内逐章阅读）
 - **在线阅读**：点击下方目录，直接在 GitHub 上按章节阅读
-- **整本下载**：[前线部署工程师（FDE）v1.0.15.pdf](前线部署工程师（FDE）v1.0.15.pdf)（根目录合并版；如有更新以章节 Markdown 为准）
+- **整本下载**：[前线部署工程师（FDE）v1.0.23.pdf](前线部署工程师（FDE）v1.0.23.pdf)（根目录合并版；如有更新以章节 Markdown 为准）
 
 ## 目录
 
